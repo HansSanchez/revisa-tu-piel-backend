@@ -137,7 +137,7 @@ La aplicación puede ser ejecutada usando Docker de dos maneras:
 
 2. **Ejecutar el Contenedor**:
    ```bash
-   docker run -d -p 8080:8080      --env-file .env      -v /ruta/local/credenciales.json:/ruta/en/contenedor/credenciales.json      --name revisa-tu-piel      revisa-tu-piel-backend
+   docker run -d -p 8080:8080 --env-file .env -v /ruta/local/credenciales.json:/ruta/en/contenedor/credenciales.json --name revisa-tu-piel revisa-tu-piel-backend
    ```
 
    Asegúrate de que en el archivo `.env`, la variable `GOOGLE_APPLICATION_CREDENTIALS` apunta a `/ruta/en/contenedor/credenciales.json`.
@@ -205,7 +205,7 @@ Una vez que los contenedores estén corriendo, puedes acceder a:
 
 2. **Desplegar en Cloud Run**:
    ```bash
-   gcloud run deploy mi-app        --image gcr.io/tu-proyecto/mi-app        --platform managed        --region us-central1        --allow-unauthenticated
+   gcloud run deploy mi-app --image gcr.io/tu-proyecto/mi-app --platform managed --region us-central1 --allow-unauthenticated
    ```
 
 ## Estructura del Proyecto

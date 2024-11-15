@@ -4,14 +4,17 @@ import random
 import openai
 from dotenv import load_dotenv
 
-# Cargar variables de entorno desde el archivo .env
-load_dotenv()
+load_dotenv()  # Carga las variables del archivo .env
+api_key = os.getenv("OPENAI_API_KEY")
+
+if not api_key:
+    raise RuntimeError("La clave OPENAI_API_KEY no está configurada. Verifica tu archivo .env y la configuración de Docker.")
 
 app = FastAPI()
 
 # Crea un cliente de OpenAI
 client = openai.Client(
-    api_key=os.getenv("OPENAI_API_KEY")
+    api_key=api_key
 )
 
 def generate_random_data():
