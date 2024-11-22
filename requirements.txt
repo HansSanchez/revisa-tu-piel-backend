@@ -93,7 +93,6 @@ python-dateutil==2.8.2
 python-dotenv==1.0.1
 python-multipart==0.0.17
 pytz==2024.2
-pywin32==306
 pyzmq==25.1.1
 referencing==0.33.0
 regex==2024.11.6
@@ -112,7 +111,6 @@ tensorboard-data-server==0.7.2
 tensorflow==2.18.0
 tensorflow-datasets==4.9.7
 tensorflow-metadata==1.16.1
-tensorflow_intel==2.18.0
 termcolor==2.5.0
 tinycss2==1.2.1
 toml==0.10.2

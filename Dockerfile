@@ -1,11 +1,19 @@
-# Usa la imagen oficial de TensorFlow con soporte GPU
-FROM tensorflow/tensorflow:latest-gpu
+# Usa una imagen base de Python ligera
+FROM python:3.11-slim
 
 # Configura el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
+# Actualiza e instala dependencias del sistema si es necesario
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copia el archivo requirements.txt al contenedor
 COPY requirements.txt .
+
+# Actualiza pip antes de instalar dependencias
+RUN pip install --no-cache-dir --upgrade pip
 
 # Instala las dependencias necesarias
 RUN pip install --no-cache-dir -r requirements.txt
