@@ -24,13 +24,21 @@ client = openai.Client(
 )
 
 def create_prompt(category, percentage):
-    prompt = f"Eres un experto en medicina y tu tarea es proporcionar una sugerencia médica para un lunar de tipo '{category}' con un porcentaje de riesgo de {percentage}%."
+    prompt = f"""Genera un mensaje breve y empático para el paciente sobre su resultado de melanoma donde:
+                {percentage:.2f}% indica riesgo de melanoma {category}.
+                Incluye en máximo 4 oraciones:
+                1. El resultado directo: "Tu lunar parece ser {category} con {percentage:.2f}% de probabilidad"
+                2. Si probabilidad > 60%: ", te recomiendo consultar a un dermatólogo lo antes posible"
+                3. Si probabilidad < 60%: ", no te preocupes, tu piel no presenta riesgo alto de melanoma"
+                4. Consejo de prevención: ", protege tu piel usando protector solar y evita el sol entre 10am-4pm"
+                Usa lenguaje simple, tutea al paciente y mantén un tono tranquilizador pero con un tono directo.
+            """
     return prompt
 
 def get_openai_response(prompt):
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4",
             messages=[
                 {"role": "user", "content": prompt}
             ],
@@ -43,7 +51,7 @@ def get_openai_response(prompt):
         print(f"Error al comunicarse con OpenAI: {e}")
         raise HTTPException(status_code=500, detail=f"Error al comunicarse con OpenAI: {e}")
     
-def get_highest_prediction(input_data, num_iterations=10):
+def get_highest_prediction(input_data):
     """
     Ejecuta la función predict_with_model_multiple_inputs varias veces y selecciona
     el porcentaje más alto y su categoría correspondiente.
@@ -57,7 +65,7 @@ def get_highest_prediction(input_data, num_iterations=10):
     """
     results = []
 
-    for _ in range(num_iterations):
+    for _ in range(3, 11):
         # Generar características aleatorias
         features = np.random.rand(71)
         # Obtener datos del modelo
@@ -98,7 +106,7 @@ def process_image(file: UploadFile = File(...)):
             input_data = image_bytes_io
 
         # Obtener datos del modelo
-        category, percentage = get_highest_prediction(input_data, num_iterations=10)
+        category, percentage = get_highest_prediction(input_data)
         print(f"Categoría: {category}, Porcentaje: {percentage:.2f}%")
 
     except Exception as e:
@@ -122,7 +130,7 @@ def process_image(file: UploadFile = File(...)):
     # Retornar los resultados
     return {
         "category": category,
-        "percentage": percentage,
+        "percentage": round(percentage, 2),
         "openai_response": openai_response
     }
 
