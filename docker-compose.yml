@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: revisa-tu-piel-contenedor-backend
+    build: 
+      context: .
+    restart: always
+    ports:
+      - "0.0.0.0:8080:8080"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - .:/app
+    networks:
+      local-network:
+        aliases:
+          - revisa-tu-piel-backend
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+
+networks:
+  local-network:
+    name: local-network
+    driver: bridge
