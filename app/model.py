@@ -79,7 +79,7 @@ def predict_with_model_multiple_inputs(image_path, features):
     elif percent > 20.0 and percent < 60.0:
         category = "Riesgo moderado"
     elif percent >= 60.0 and percent <= 100.0:
-        category = "Alta riesgo"
+        category = "Alto riesgo"
     else:
         category = "No se pudo determinar la categoría"
         
