@@ -24,14 +24,15 @@ client = openai.Client(
 )
 
 def create_prompt(category, percentage):
-    prompt = f"""Genera un mensaje breve y empático para el paciente sobre su resultado de melanoma donde:
-                {percentage:.2f}% indica riesgo de melanoma {category}.
-                Incluye en máximo 4 oraciones:
-                1. El resultado directo: "Tu lunar parece ser {category} con {percentage:.2f}% de probabilidad"
-                2. Si probabilidad > 60%: ", te recomiendo consultar a un dermatólogo lo antes posible"
-                3. Si probabilidad < 60%: ", no te preocupes, tu piel no presenta riesgo alto de melanoma"
-                4. Consejo de prevención: ", protege tu piel usando protector solar y evita el sol entre 10am-4pm"
-                Usa lenguaje simple, tutea al paciente y mantén un tono tranquilizador pero con un tono directo.
+    prompt = f"""A partir del riesgo ({category}) y la probabilidad de que el lunar observado ({percentage}%), generar un mensaje concreto y claro en tono amigable al paciente, con la siguiente estructura.
+
+                1. Comunicar al paciente el resultado obtenido del análisis de la fotografía.
+                2. Indicar al paciente la necesidad de acudir a un medico o dermatólogo según el riesgo obtenido, si es alto incitarlo a ir de manera urgente.
+                3. Generar dos recomendaciones sencillas sobre el cuidado de la piel y la exposición prolongada a la radiación UV en la isla de San Andres.
+                4. Indicar al paciente signos de alarma.
+                5. Tutear al paciente.
+                6. Incluir el valor de la probabilidad en caso de que el riesgo sea alto o moderado.
+                7. Limitar el mensaje a 200 palabras.
             """
     return prompt
 

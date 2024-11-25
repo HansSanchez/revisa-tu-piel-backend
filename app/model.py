@@ -70,7 +70,17 @@ def predict_with_model_multiple_inputs(image_path, features):
     inputs = {"images": processed_image, "features": features}
     # Realizar la predicción
     prediction = model.predict(inputs)
-    # Construcción de retorno
-    category = "Maligno" if (prediction * 100) > 60 else "Benigno"
-    percent = prediction * 100
+    
+    # Convertimos a porcentaje
+    percent = prediction * 100.0
+    
+    if (percent > 0.0 and percent <= 20.0):
+        category = "Bajo riesgo"
+    elif percent > 20.0 and percent < 60.0:
+        category = "Riesgo moderado"
+    elif percent >= 60.0 and percent <= 100.0:
+        category = "Alta riesgo"
+    else:
+        category = "No se pudo determinar la categoría"
+        
     return category, percent.item()
