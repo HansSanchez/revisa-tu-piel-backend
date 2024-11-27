@@ -8,6 +8,7 @@ import tensorflow as tf
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 
 load_dotenv()  # Carga las variables del archivo .env
@@ -17,6 +18,15 @@ if not api_key:
     raise RuntimeError("La clave OPENAI_API_KEY no está configurada. Verifica tu archivo .env y la configuración de Docker.")
 
 app = FastAPI()
+
+# Configuración de CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://45.189.119.147", "http://172.16.100.147"],  # Orígenes permitidos
+    allow_credentials=False,
+    allow_methods=["POST"],
+    allow_headers=["*"],
+)
 
 # Crea un cliente de OpenAI
 client = openai.Client(
