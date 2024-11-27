@@ -77,7 +77,7 @@ def get_highest_prediction(input_data):
     """
     results = []
 
-    for _ in range(3, 11):
+    for _ in range(3, 5):
         # Generar características aleatorias
         features = np.random.rand(71)
         # Obtener datos del modelo
