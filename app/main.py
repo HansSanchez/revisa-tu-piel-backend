@@ -27,6 +27,7 @@ app.add_middleware(
     allow_methods=["POST"],
     allow_headers=["*"],
 )
+print("Configuración de CORS completada.")
 
 # Crea un cliente de OpenAI
 client = openai.Client(
