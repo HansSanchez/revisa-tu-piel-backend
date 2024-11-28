@@ -50,11 +50,11 @@ def create_prompt(category, percentage):
 def get_openai_response(prompt):
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o",
             messages=[
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=550,
+            max_tokens=350,
             temperature=1
         )
         response_text = response.choices[0].message.content.strip()
@@ -92,6 +92,7 @@ def get_highest_prediction(input_data):
 
 @app.post("/process-image/")
 def process_image(file: UploadFile = File(...)):
+    # Validar que el archivo sea una imagen
     if not file.content_type.startswith('image/'):
         raise HTTPException(status_code=400, detail="El archivo debe ser una imagen.")
     
@@ -102,6 +103,13 @@ def process_image(file: UploadFile = File(...)):
         # Abrir la imagen usando PIL desde los bytes en memoria
         image = Image.open(io.BytesIO(image_bytes))
         
+        # Convertir la imagen al modo RGB si es necesario
+        if image.mode == "RGBA":
+            image = image.convert("RGB")
+        elif image.mode != "RGB":
+            # Asegurar que esté en un formato compatible
+            raise HTTPException(status_code=400, detail="El formato de la imagen no es compatible.")
+
         # Convertir la imagen a un array de NumPy
         image_array = np.array(image)
         
