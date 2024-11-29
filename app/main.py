@@ -19,13 +19,22 @@ if not api_key:
 
 app = FastAPI()
 
+# Lista única de orígenes permitidos
+origins = [
+    "http://localhost:5173",  # Desarrollo local
+    "http://127.0.0.1:5173",  # Desarrollo local
+    "http://45.189.119.147",  # Acceso IP pública
+    "http://172.16.100.147",  # Acceso IP privada
+    "https://melanomia.minciencias.gov.co"  # Producción
+]
+
 # Configuración de CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://45.189.119.147", "http://172.16.100.147"],  # Orígenes permitidos
-    allow_credentials=False,
-    allow_methods=["POST"],
-    allow_headers=["*"],
+    allow_origins=origins,  # Lista única de orígenes
+    allow_credentials=False,  # Habilitado para cookies o autenticación
+    allow_methods=["POST"],  # Métodos permitidos
+    allow_headers=["*"],  # Permitir todos los encabezados
 )
 print("Configuración de CORS completada.")
 
