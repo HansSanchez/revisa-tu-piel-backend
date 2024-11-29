@@ -7,7 +7,7 @@ services:
       context: .
     restart: always
     ports:
-      - "80:80"  # Cambiado para usar el puerto 81
+      - "8080:8080"  # Cambiado para usar el puerto 81
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
     networks:
