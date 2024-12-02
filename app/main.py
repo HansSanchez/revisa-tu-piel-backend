@@ -144,7 +144,7 @@ def process_image(file: UploadFile = File(...)):
     
     try:
         # Crear el prompt
-        prompt = create_prompt(category, percentage)
+        prompt = create_prompt(category, round(percentage, 2))
     except Exception as e:
         print(f"Error al crear el prompt: {e}")
         raise HTTPException(status_code=500, detail=f"Error al crear el prompt: {e}")
