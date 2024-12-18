@@ -48,22 +48,22 @@ def create_prompt(category, percentage):
 
                 1. Comunicar al paciente el resultado obtenido del análisis de la fotografía.
                 2. Indicar al paciente la necesidad de acudir a un medico o dermatólogo según el riesgo obtenido, si es alto incitarlo a ir de manera urgente.
-                3. Generar dos recomendaciones sencillas sobre el cuidado de la piel y la exposición prolongada a la radiación UV en la isla de San Andres.
+                3. Generar dos recomendaciones sencillas sobre el cuidado de la piel y la exposición prolongada a la radiación UV.
                 4. Indicar al paciente signos de alarma.
                 5. Tutear al paciente.
                 6. Incluir el valor de la probabilidad en caso de que el riesgo sea alto o moderado.
-                7. Limitar el mensaje a 200 palabras.
+                7. Limitar el mensaje a 150 palabras.
             """
     return prompt
 
 def get_openai_response(prompt):
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-2024-11-20",
             messages=[
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=350,
+            max_tokens=150,
             temperature=1
         )
         response_text = response.choices[0].message.content.strip()
@@ -167,12 +167,12 @@ def process_image(file: UploadFile = File(...)):
 def poc_openai():
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-2024-11-20",
             messages=[
                 {"role": "user", "content": "Hola cómo estás?"}
             ],
             max_tokens=150,
-            temperature=0.7
+            temperature=1
         )
         response_text = response.choices[0].message.content.strip()
         return {"response": response_text}
